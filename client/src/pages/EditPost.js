@@ -9,9 +9,10 @@ export default function EditPost() {
   const [content,setContent] = useState('');
   const [files, setFiles] = useState('');
   const [redirect,setRedirect] = useState(false);
+  const url = process.env.REACT_APP_URL
 
   useEffect(() => {
-    fetch('http://localhost:4000/post/'+id)
+    fetch(`${url}/post/`+id)
       .then(response => {
         response.json().then(postInfo => {
           setTitle(postInfo.title);
