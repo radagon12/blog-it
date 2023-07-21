@@ -7,13 +7,15 @@ export default function LoginPage() {
   const [password,setPassword] = useState('');
   const [redirect,setRedirect] = useState(false);
   const {setUserInfo} = useContext(UserContext);
+  const url = process.env.REACT_APP_URL;
+
   async function login(ev) {
     ev.preventDefault();
-    const response = await fetch('http://localhost:4000/login', {
+    const response = await fetch(`${url}/login`, {
       method: 'POST',
       body: JSON.stringify({username, password}),
       headers: {'Content-Type':'application/json'},
-      credentials: 'include',
+      credentials: "include"
     });
     if (response.ok) {
       response.json().then(userInfo => {

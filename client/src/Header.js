@@ -4,8 +4,10 @@ import {UserContext} from "./UserContext";
 
 export default function Header() {
   const {setUserInfo,userInfo} = useContext(UserContext);
+  const url = process.env.REACT_APP_URL;
+  
   useEffect(() => {
-    fetch('http://localhost:4000/profile', {
+    fetch(`${url}/profile`, {
       credentials: 'include',
     }).then(response => {
       response.json().then(userInfo => {
@@ -15,7 +17,7 @@ export default function Header() {
   }, []);
 
   function logout() {
-    fetch('http://localhost:4000/logout', {
+    fetch(`${url}/logout`, {
       credentials: 'include',
       method: 'POST',
     });
