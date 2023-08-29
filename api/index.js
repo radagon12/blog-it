@@ -20,15 +20,16 @@ const secret = process.env.SECRET;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      return callback(null, true);
-    },
-    optionsSuccessStatus: 200,
-    credentials: true,
-  })
-);
+const allowedOrigins = ['https://blog-it-arsenal.netlify.app'];
+app.use(cors({
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
 
 const uri = process.env.MONGO_URI;
 
