@@ -28,10 +28,18 @@ app.use(cors({
     } else {
       callback(new Error('Not allowed by CORS'));
     }
-  }
+  },
+  credentials: true
 }));
 
 const uri = process.env.MONGO_URI;
+
+app.use((req,res,next) =>{
+  res.header('Access-Control-Allow-Origin', 'https://blog-it-arsenal.netlify.app');
+  res.header('Access-Control-Allow-Credentials', 'true');
+
+  next();
+})
 
 mongoose
   .connect(uri)
