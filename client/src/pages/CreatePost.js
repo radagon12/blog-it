@@ -28,7 +28,7 @@ export default function CreatePost() {
 
       console.log(uploadRes.data.url)
 
-      const res = await axios.post(`${url}/post`, {
+      const res = await axios.post(`/api/post`, {
         title,
         summary,
         content,
