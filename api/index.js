@@ -11,19 +11,24 @@ const cookieParser = require("cookie-parser");
 const fs = require("fs");
 const cors = require("cors");
 const { default: axios } = require("axios");
+const morgan = require("morgan");
+
+app.use(morgan('dev'));
 
 const salt = bcrypt.genSaltSync(10);
 const secret = process.env.SECRET;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-  origin: function(origin, callback){
-    return callback(null, true);
-  },
-  optionsSuccessStatus: 200,
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      return callback(null, true);
+    },
+    optionsSuccessStatus: 200,
+    credentials: true,
+  })
+);
 
 const uri = process.env.MONGO_URI;
 
@@ -31,36 +36,6 @@ mongoose
   .connect(uri)
   .then(() => console.log("connected to MongoDB"))
   .catch(() => console.error("unable to connect to mongodb"));
-
-app.use((req, res, next) => {
-  const startTime = new Date();
-
-  // Store the startTime in the request object to access it later
-  req.startTime = startTime;
-
-  res.on("finish", () => {
-    const endTime = new Date();
-    const requestTime = endTime - startTime;
-
-    // Define colors for request methods
-    const colors = {
-      GET: "\x1b[32m", // Green
-      POST: "\x1b[34m", // Blue
-      PUT: "\x1b[33m", // Yellow
-      DELETE: "\x1b[31m", // Red
-    };
-
-    // Get the color for the request method
-    const color = colors[req.method] || "\x1b[0m"; // Default color: Reset
-
-    // Log the request details to the console with colors
-    console.log(
-      `${color}${req.method}\x1b[0m ${res.statusCode} ${req.originalUrl} ${requestTime}ms`
-    );
-  });
-
-  next();
-});
 
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
@@ -89,10 +64,15 @@ app.post("/login", async (req, res) => {
     // logged in
     jwt.sign({ username, id: userDoc._id }, secret, {}, (err, token) => {
       if (err) throw err;
-      res.cookie("token", token).json({
-        id: userDoc._id,
-        username,
-      });
+      res
+        .cookie("token", token, {
+          httpOnly: true,
+          secure: true,
+        })
+        .json({
+          id: userDoc._id,
+          username,
+        });
     });
   } else {
     res.status(400).json("wrong credentials");
