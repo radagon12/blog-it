@@ -9,12 +9,23 @@ export default function CreatePost() {
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
-  const [files, setFiles] = useState("");
+  const [files, setFiles] = useState(null);
   const [redirect, setRedirect] = useState(false);
-  const url = process.env.REACT_APP_URL;
 
   async function createNewPost(ev) {
     ev.preventDefault();
+
+    // console.log("here",files);
+
+    if(!title)
+    {
+      return alert("Please type a title!!");
+    }
+
+    if(!files)
+    {
+      return alert("Please select a file!!");
+    }
 
     const _data = new FormData();
     _data.append("file", files[0]);
@@ -32,7 +43,7 @@ export default function CreatePost() {
         title,
         summary,
         content,
-        file: uploadRes.data.url,
+        files: uploadRes.data.url,
       } ,{
         withCredentials: true
       });

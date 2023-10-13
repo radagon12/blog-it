@@ -9,5 +9,9 @@
     "mongoose": "^6.8.2",
     "multer": "^1.4.5-lts.1",
     "react-router-dom": "^6.6.1"
+  },"scripts": {
+    "test": "nodemon index.js",
+    "start": "cd api && nodemon index.js",
+    "build": "npm i"
   }
 }

@@ -10,7 +10,6 @@ export default function EditPost() {
   const [content,setContent] = useState('');
   const [files, setFiles] = useState('');
   const [redirect,setRedirect] = useState(false);
-  const url = process.env.REACT_APP_URL
 
   useEffect(() => {
     fetch(`/api/post/`+id)
@@ -27,6 +26,16 @@ export default function EditPost() {
   async function updatePost(ev) {
     ev.preventDefault();
 
+    if(!title)
+    {
+      return alert("Please type a title!!");
+    }
+
+    if(!files)
+    {
+      return alert("Please select a file!!");
+    }
+
     const _data = new FormData();
     _data.append("file", files[0]);
     _data.append("upload_preset", "blogit3");
@@ -39,7 +48,7 @@ export default function EditPost() {
 
       console.log(uploadRes.data.url)
 
-      const res = await axios.put(`/api /post`, {
+      const res = await axios.put(`/api/post`, {
         title,
         summary,
         content,

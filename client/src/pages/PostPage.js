@@ -8,7 +8,6 @@ export default function PostPage() {
   const [postInfo,setPostInfo] = useState(null);
   const {userInfo} = useContext(UserContext);
   const {id} = useParams();
-  const url = process.env.REACT_APP_URL;
   
   useEffect(() => {
     fetch(`/api/post/${id}`)

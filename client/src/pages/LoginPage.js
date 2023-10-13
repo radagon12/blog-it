@@ -7,7 +7,6 @@ export default function LoginPage() {
   const [password,setPassword] = useState('');
   const [redirect,setRedirect] = useState(false);
   const {setUserInfo} = useContext(UserContext);
-  const url = process.env.REACT_APP_URL;
 
   async function login(ev) {
     ev.preventDefault();
