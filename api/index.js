@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.json());
 app.use(cookieParser());
 
+const PORT = process.env.PORT || 4000;
 const uri = process.env.MONGO_URI;
 
 mongoose
@@ -156,5 +157,5 @@ app.get("/api/post/:id", async (req, res) => {
   res.json(postDoc);
 });
 
-app.listen(4000);
+app.listen(PORT);
 //

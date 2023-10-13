@@ -39,7 +39,7 @@ export default function EditPost() {
 
       console.log(uploadRes.data.url)
 
-      const res = await axios.put(`/api/post`, {
+      const res = await axios.put(`/api /post`, {
         title,
         summary,
         content,
