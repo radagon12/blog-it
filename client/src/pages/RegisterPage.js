@@ -1,5 +1,6 @@
 import {useContext, useState} from "react";
 import { UserContext } from "../UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -7,7 +8,7 @@ export default function RegisterPage() {
   const [redirect,setRedirect] = useState(false);
   const {setUserInfo} = useContext(UserContext);
 
-
+  const navigate = useNavigate();
   
   async function register(ev) {
     ev.preventDefault();
@@ -38,6 +39,11 @@ export default function RegisterPage() {
       alert('registration failed');
     }
   }
+
+  if (redirect) {
+    return navigate('/')
+  }
+
   return (
     <form className="register" onSubmit={register}>
       <h1>Register</h1>
