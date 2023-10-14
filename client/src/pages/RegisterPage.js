@@ -1,8 +1,13 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
+import { UserContext } from "../UserContext";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [redirect,setRedirect] = useState(false);
+  const {setUserInfo} = useContext(UserContext);
+
+
   
   async function register(ev) {
     ev.preventDefault();
@@ -12,7 +17,23 @@ export default function RegisterPage() {
       headers: {'Content-Type':'application/json'},
     });
     if (response.status === 200) {
-      alert('registration successful');
+      console.log("Successfully registered")
+      
+      const response = await fetch(`/api/login`, {
+        method: 'POST',
+        body: JSON.stringify({username, password}),
+        headers: {'Content-Type':'application/json'},
+        credentials: "include"
+      });
+      if (response.ok) {
+        response.json().then(userInfo => {
+          setUserInfo(userInfo);
+          setRedirect(true);
+        });
+      } else {
+        alert('wrong credentials');
+      }
+
     } else {
       alert('registration failed');
     }
