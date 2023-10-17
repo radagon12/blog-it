@@ -57,6 +57,7 @@ export default function CreatePost() {
       }
     } catch (error) {
       console.error("Error:", error);
+      console.log("here")
 
       alert("Please login again!!")
       setUserInfo(null)
