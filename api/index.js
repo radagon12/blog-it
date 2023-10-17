@@ -93,6 +93,11 @@ app.post("/api/post", async (req, res) => {
   try {
     const { token } = req.cookies;
 
+    if(!token)
+    {
+      throw "Token missing !!!";
+    }
+
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
       const { title, summary, content, file } = req.body;
@@ -122,6 +127,11 @@ app.put("/api/post", async (req, res) => {
     try {
       const { id, title, summary, content, file } = req.body;
       const postDoc = await Post.findById(id);
+
+      if(!token)
+      {
+        throw "Token missing !!!";
+      }
 
       const isAuthor =
         JSON.stringify(postDoc.author) === JSON.stringify(info.id);
