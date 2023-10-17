@@ -12,7 +12,7 @@ export default function EditPost() {
   const [files, setFiles] = useState('');
   const [redirect,setRedirect] = useState(false);
   const navigate = useNavigate()
-  const [userInfo, setUserInfo] = useContext(UserContext)
+  const {userInfo, setUserInfo} = useContext(UserContext)
 
   useEffect(() => {
     fetch(`/api/post/`+id)
@@ -63,6 +63,11 @@ export default function EditPost() {
 
       if (res.status === 204) {
         setRedirect(true);
+      }else
+      {
+        alert("Please login again!!")
+        setUserInfo(null)
+        navigate('/')
       }
     } catch (error) {
       console.error("Error:", error);

@@ -13,7 +13,7 @@ export default function CreatePost() {
   const [files, setFiles] = useState(null);
   const [redirect, setRedirect] = useState(false);
   const navigate = useNavigate()
-  const [userInfo, setUserInfo] = useContext(UserContext)
+  const {userInfo, setUserInfo} = useContext(UserContext)
 
   async function createNewPost(ev) {
     ev.preventDefault();
@@ -54,6 +54,11 @@ export default function CreatePost() {
 
       if (res.status === 201) {
         setRedirect(true);
+      }else
+      {
+        alert("Please login again!!")
+      setUserInfo(null)
+      navigate('/')
       }
     } catch (error) {
       console.error("Error:", error);
