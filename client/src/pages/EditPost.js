@@ -1,7 +1,8 @@
-import {useEffect, useState} from "react";
-import {Navigate, useParams} from "react-router-dom";
+import {useContext, useEffect, useState} from "react";
+import {Navigate, useNavigate, useParams} from "react-router-dom";
 import Editor from "../Editor";
 import axios from "axios";
+import { UserContext } from "../UserContext";
 
 export default function EditPost() {
   const {id} = useParams();
@@ -10,6 +11,8 @@ export default function EditPost() {
   const [content,setContent] = useState('');
   const [files, setFiles] = useState('');
   const [redirect,setRedirect] = useState(false);
+  const navigate = useNavigate()
+  const [userInfo, setUserInfo] = useContext(UserContext)
 
   useEffect(() => {
     fetch(`/api/post/`+id)
@@ -63,6 +66,9 @@ export default function EditPost() {
       }
     } catch (error) {
       console.error("Error:", error);
+      alert("Please login again!!")
+      setUserInfo(null)
+      navigate('/')
     }
 
     // const data = new FormData();

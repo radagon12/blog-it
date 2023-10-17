@@ -1,9 +1,10 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import Editor from "../Editor";
 import axios from "axios";
+import { UserContext } from "../UserContext";
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
@@ -11,9 +12,12 @@ export default function CreatePost() {
   const [content, setContent] = useState("");
   const [files, setFiles] = useState(null);
   const [redirect, setRedirect] = useState(false);
+  const navigate = useNavigate()
+  const [userInfo, setUserInfo] = useContext(UserContext)
 
   async function createNewPost(ev) {
     ev.preventDefault();
+    
 
     // console.log("here",files);
 
@@ -53,6 +57,10 @@ export default function CreatePost() {
       }
     } catch (error) {
       console.error("Error:", error);
+
+      alert("Please login again!!")
+      setUserInfo(null)
+      navigate('/')
     }
   }
 
