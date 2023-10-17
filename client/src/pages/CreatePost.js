@@ -50,7 +50,7 @@ export default function CreatePost() {
         files: uploadRes.data.url,
       } ,{
         withCredentials: true
-      });
+      }); 
 
       if (res.status === 201) {
         setRedirect(true);
